@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Container Prediction</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom styles */
+      body {
+        background-color: #e8f5e9; /* Light green */
+      }
+      h1,
+      p {
+        color: #2e7d32; /* Dark green */
+      }
+      .btn-primary {
+        background-color: #388e3c; /* Green color for buttons */
+        border-color: #388e3c;
+      }
+      .btn-primary:hover {
+        background-color: #2e7d32;
+        border-color: #2e7d32;
+      }
+      .spinner-border.text-primary {
+        color: #388e3c; /* Green for loading spinner */
+      }
+      .text-success {
+        color: #2e7d32; /* Green for success text */
+      }
+      .form-control {
+        border-color: #388e3c; /* Green for input border */
+      }
+      #input-form {
+        display: none; /* Initially hide the input form */
+      }
+      #predictionsTable {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      #predictionsTable th,
+      #predictionsTable td {
+        border: 1px solid #388e3c; /* Green border for table cells */
+        padding: 8px;
+        text-align: center;
+      }
+      #predictionsTable th {
+        background-color: #388e3c; /* Green background for headers */
+        color: white;
+      }
+      /* Ensure table takes full width of container */
+      .table-container {
+        overflow-x: auto;
+        width: 500%;
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+    <div class="container mt-5">
+      <h1 class="text-center">Quantity Container Prediction</h1>
+      <p class="text-center">
+        Please fill out the form below to get predictions.
+      </p>
+
+      <!-- Form for file upload -->
+      <form
+        id="file-upload-form"
+        action="/upload-excel"
+        method="POST"
+        enctype="multipart/form-data"
+        class="mb-4"
+      >
+        <div class="form-group">
+          <label for="file-upload">Upload Excel File:</label>
+          <div class="input-group">
+            <input
+              type="file"
+              class="form-control"
+              id="file-upload"
+              name="file"
+              accept=".xlsx, .xls"
+              required
+            />
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-primary">Upload</button>
+            </div>
+          </div>
+        </div>
+        <!-- Loading spinner and success message -->
+        <div id="upload-status" class="mt-2">
+          <div
+            id="loading-spinner"
+            class="spinner-border text-primary"
+            role="status"
+            style="display: none"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div id="success-message" class="text-success" style="display: none">
+            Data Uploaded Successfully!
+          </div>
+        </div>
+      </form>
+
+      <!-- Buttons for showing form and processing predictions -->
+      <div class="mb-4" style="display: flex; flex-direction: column-reverse">
+        <button
+          id="show-form-btn"
+          class="btn btn-primary"
+          style="margin-top: 10px"
+        >
+          Predict per Customer
+        </button>
+        <button id="process-prediction-btn" class="btn btn-primary">
+          Predict All
+        </button>
+      </div>
+
+      <div class="col-md-6" style="padding-right: 10%">
+        <!-- Prediction Table -->
+        <div class="table-container">
+          <table id="predictionsTable">
+            <thead>
+              <tr>
+                <th>Customer ID</th>
+                <th>Container Type</th>
+                <th>Cargo</th>
+                <th>Quantity</th>
+                <th>Prediction</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rows will be inserted here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Form for user input -->
+          <form id="input-form" action="/process-user_input" method="POST">
+            <!-- Container Type Dropdown/Input -->
+            <div class="form-group">
+              <label for="containertype">Container Type:</label>
+              <select
+                class="form-control"
+                id="containertype"
+                name="containertype"
+                required
+              >
+                <option value="" disabled selected>
+                  Select Container Type
+                </option>
+                <option value="20">20</option>
+                <option value="40">40</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="masked_name">Customer ID:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="masked_name"
+                name="masked_name"
+                placeholder="Enter the Customer's Name"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="comm_grade_ro">Cargo:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="comm_grade_ro"
+                name="comm_grade_ro"
+                placeholder="Enter the Contents of the Cargo"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="qty_ro">Quantity of Request Order:</label>
+              <input
+                type="number"
+                class="form-control"
+                id="qty_ro"
+                name="qty_ro"
+                placeholder="Enter the Quantity of Request Order"
+                required
+              />
+            </div>
+            <input type="hidden" name="user_id" value="{{user_id}}" />
+            <!-- user_id yang Anda terima dari /upload-excel -->
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="form-group" style="margin-top: 10px">
+              <label for="prediction-output">Prediction Results:</label>
+              <textarea
+                class="form-control"
+                id="prediction-output"
+                rows="3"
+                readonly
+              ></textarea>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="static/script.js"></script>
+  </body>
+</html>

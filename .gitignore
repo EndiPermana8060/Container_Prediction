@@ -1,0 +1,9 @@
+__pycache__
+container-RO-env
+tmp
+user_excel
+Actual_Container_Prediction.zip
+new_cont_pred.pkl
+scaler.pkl
+test.xlsx
+.env
