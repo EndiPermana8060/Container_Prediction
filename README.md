@@ -2,6 +2,9 @@
 
 ## Project Overview
 
+![Alt text](images/WhatsApp%20Image%202024-10-10%20at%2011.00.46_e017d1b0.jpg)
+
+
 This project aims to predict the total number of containers that will be used by customers during a voyage. The dataset contains features related to container shipments such as:
 
 - **Route of the ship**: The path taken by the vessel.
@@ -62,7 +65,7 @@ These features were preprocessed and fed into the models for prediction.
    - The final prediction was made using an ensemble technique by averaging the predictions from the three models.
    
 4. **Model Evaluation**:
-   - The models were evaluated using common regression metrics such as Mean Squared Error (MSE), Mean Absolute Error (MAE), and R-squared (R²) to determine their performance.
+   - The models were evaluated using common regression metrics such as Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and R-squared (R²) to determine their performance.
 
 ## Results
 
