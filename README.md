@@ -24,13 +24,16 @@ An ensemble method was employed, combining the strengths of three different mode
 Each of these models was tuned individually using **GridSearchCV** to find the best hyperparameters for the task. The final predictions are made by averaging the results of these three models.
 
 Here is the metrics result of each of those models:
+
 ![Alt text](images/WhatsApp%20Image%202024-10-09%20at%2021.37.28_00b0937d.jpg)
 
 Here is the best model and with its best hyperparameter found with GridSearchCV, the score is R-Squared:
-![Alt text](images/WhatsApp Image 2024-10-09 at 21.37.11_a41c73d3.jpg)
+
+![Alt text](images/WhatsApp%20Image%202024-10-09%20at%2021.37.11_a41c73d3.jpg)
 
 Here is the metrics for the ensemble model:
-![Alt text](images/WhatsApp Image 2024-10-09 at 21.37.48_4852ee1f.jpg)
+
+![Alt text](images/WhatsApp%20Image%202024-10-09%20at%2021.37.48_4852ee1f.jpg)
 
 the metrics result for the ensemble model might not show any significant improvement, but we are working to improve the model
 
